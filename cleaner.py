@@ -100,48 +100,60 @@ def get_cleaning_methods(dtype):
         methods.append("Encode Categorical Data")
     return methods
 
+def load_data(uploaded_file):
+    encodings = ['utf-8', 'latin1', 'ISO-8859-1', 'cp1252']
+    for encoding in encodings:
+        try:
+            df = pd.read_csv(uploaded_file, encoding=encoding)
+            return df
+        except UnicodeDecodeError:
+            continue
+    st.error("Unable to decode the file with available encodings.")
+    return None
+
 def main():
     st.title("Dataset Cleaner")
+    st.write("by Chirag N")
 
     uploaded_file = st.file_uploader("Upload your dataset", type=["csv"])
     
     if uploaded_file is not None:
-        df = pd.read_csv(uploaded_file)
-        
-        # Display dataset dimensions
-        st.write(f"Dataset contains {df.shape[0]} rows and {df.shape[1]} columns.")
-        
-        st.write("Dataset preview:")
-        st.write(df.head())
-        
-        # Detect issues
-        issues = detect_issues(df)
-        st.subheader("Detected Issues")
-        if issues:
-            for column, column_issues in issues.items():
-                st.write(f"**{column}**:")
-                for issue in column_issues:
-                    st.write(f"- {issue}")
-        else:
-            st.write("No issues detected.")
-        
-        st.write("Select columns to clean:")
-        for index, column in enumerate(df.columns):
-            df = clean_column(df, column, index)
-        
-        st.write("Cleaned dataset preview:")
-        st.write(df.head())
-        
-        # Download button
-        towrite = BytesIO()
-        df.to_csv(towrite, index=False)
-        towrite.seek(0)
-        st.download_button(
-            label="Download Cleaned Dataset",
-            data=towrite,
-            file_name="cleaned_dataset.csv",
-            mime="text/csv"
-        )
+        df = load_data(uploaded_file)
+        if df is not None:
+            # Display dataset dimensions
+            st.write(f"Dataset contains {df.shape[0]} rows and {df.shape[1]} columns.")
+            
+            st.write("Dataset preview:")
+            st.write(df.head())
+            
+            # Detect issues
+            issues = detect_issues(df)
+            st.subheader("Detected Issues")
+            if issues:
+                for column, column_issues in issues.items():
+                    st.write(f"**{column}**:")
+                    for issue in column_issues:
+                        st.write(f"- {issue}")
+            else:
+                st.write("No issues detected.")
+            
+            st.write("Select columns to clean:")
+            for index, column in enumerate(df.columns):
+                df = clean_column(df, column, index)
+            
+            st.write("Cleaned dataset preview:")
+            st.write(df.head())
+            
+            # Download button
+            towrite = BytesIO()
+            df.to_csv(towrite, index=False)
+            towrite.seek(0)
+            st.download_button(
+                label="Download Cleaned Dataset",
+                data=towrite,
+                file_name="cleaned_dataset.csv",
+                mime="text/csv"
+            )
 
 if __name__ == "__main__":
     main()
