@@ -23,5 +23,5 @@ To run this app, you'll need Python and the following libraries. You can install
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/yourusername/dataset-cleaner.git
-   cd dataset-cleaner
+   git clone https://github.com/nchirag/Dataset-Cleaner.git
+   cd Dataset-Cleaner
