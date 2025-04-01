@@ -9,9 +9,9 @@ import psycopg2
 def connect_to_postgres():
     try:
         conn = psycopg2.connect(
-            dbname="cleanerDatabase",  # Adjust database name
-            user="chirag",  # Replace with your database user
-            password="Chirag@350",  # Replace with your database password
+            dbname="",  # Adjust database name
+            user="",  # Replace with your database user
+            password="",  # Replace with your database password
             host="localhost",
             port="5432"
         )
@@ -279,4 +279,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
