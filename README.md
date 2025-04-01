@@ -1,5 +1,6 @@
 # Dataset Cleaner
 by Chirag N
+Date - 18/08/2024
 
 This Streamlit app allows users to upload a dataset, clean it column by column, and download the cleaned dataset. The app provides various data cleaning options, including handling missing values, removing duplicates, managing outliers, standardizing data, and encoding categorical data.
 
